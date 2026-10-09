@@ -1,0 +1,806 @@
+/* ADD [Claude AI - Opus 5] (2026-10-08 10:48:42): Claude Skill Editor styles. */
+
+:root {
+  --bg: #16181d;
+  --bg-2: #1c1f26;
+  --bg-3: #23262f;
+  --line: #31353f;
+  --fg: #dfe3ea;
+  --fg-dim: #959cab;
+  --accent: #d97757;
+  --accent-dim: #8c4a33;
+  --err: #e5736d;
+  --warn: #d9a84e;
+  --ok: #6fbf8b;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+  --sans: ui-sans-serif, "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #444b59 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #444b59;
+  border-radius: 5px;
+  border: 2px solid var(--bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #5a6273;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.5 var(--sans);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent-dim);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1206;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 6px 8px;
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 1px solid var(--accent-dim);
+  border-color: var(--accent-dim);
+}
+
+/* ---------- header ---------- */
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+
+header .title {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+header .path {
+  font: 12px/1.4 var(--mono);
+  color: var(--fg-dim);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dirty-dot {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ---------- layout ---------- */
+
+main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+#pane-list {
+  width: 290px;
+  flex: none;
+  background: var(--bg-2);
+  border-right: 1px solid var(--line);
+}
+
+#pane-edit {
+  flex: 1;
+  /* FIX [Claude AI - Opus 5] (2026-10-08 12:05:41): the welcome overlay is
+     absolutely positioned; without this it escapes to the viewport and covers
+     the header and the side panel. */
+  position: relative;
+}
+
+#pane-side {
+  width: 420px;
+  flex: none;
+  background: var(--bg-2);
+  border-left: 1px solid var(--line);
+}
+
+.splitter {
+  width: 5px;
+  flex: none;
+  cursor: col-resize;
+  background: transparent;
+}
+
+.splitter:hover {
+  background: var(--accent-dim);
+}
+
+.pane-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+
+.pane-head .grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.scroll {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- skill list ---------- */
+
+.root-group {
+  padding: 6px 10px 2px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--fg-dim);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.skill-item {
+  padding: 6px 10px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.skill-item:hover {
+  background: var(--bg-3);
+}
+
+.skill-item.active {
+  background: var(--bg-3);
+  border-left-color: var(--accent);
+}
+
+.skill-item .nm {
+  font: 13px/1.3 var(--mono);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skill-item.broken .nm {
+  color: var(--err);
+}
+
+.badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--fg-dim);
+  flex: none;
+}
+
+.badge.ro {
+  color: var(--fg-dim);
+}
+
+.badge.err {
+  color: var(--err);
+  border-color: var(--accent-dim);
+}
+
+.badge.warn {
+  color: var(--warn);
+}
+
+/* ---------- form ---------- */
+
+.form {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+  display: grid;
+  gap: 8px;
+}
+
+.field label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--fg-dim);
+  margin-bottom: 3px;
+}
+
+.field .row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.counter {
+  font: 11px var(--mono);
+  color: var(--fg-dim);
+  flex: none;
+  min-width: 68px;
+  text-align: right;
+}
+
+.counter.bad {
+  color: var(--err);
+}
+
+.counter.soft {
+  color: var(--warn);
+}
+
+textarea.desc {
+  resize: vertical;
+  min-height: 54px;
+  font-family: var(--sans);
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-2);
+  flex: none;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 6px 10px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  border-radius: 0;
+  color: var(--fg-dim);
+  font: 12px var(--mono);
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--fg);
+}
+
+.tab.active {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- editor ---------- */
+
+.editor-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.editor-wrap > pre,
+.editor-wrap > textarea {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 0;
+  font: 13px/1.6 var(--mono);
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.editor-wrap > pre {
+  pointer-events: none;
+  overflow: hidden;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+.editor-wrap > textarea {
+  background: transparent;
+  color: transparent;
+  caret-color: var(--accent);
+  resize: none;
+  overflow: auto;
+  outline: none;
+}
+
+.editor-wrap > textarea::selection {
+  background: #3b4a63;
+}
+
+.t-head {
+  color: #8fb8f0;
+  font-weight: 700;
+}
+.t-code {
+  color: #e2b07a;
+}
+.t-fence {
+  color: #7d8596;
+}
+.t-link {
+  color: #76c7b7;
+}
+.t-bold {
+  color: #f0e0a0;
+}
+.t-bullet {
+  color: var(--accent);
+}
+.t-rule {
+  color: #7d8596;
+}
+
+/* ---------- side panel ---------- */
+
+.side-body {
+  padding: 10px 12px;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.issue {
+  border: 1px solid var(--line);
+  border-left-width: 3px;
+  border-radius: 5px;
+  padding: 7px 9px;
+  margin-bottom: 7px;
+  background: var(--bg);
+}
+
+.issue.error {
+  border-left-color: var(--err);
+}
+
+.issue.warn {
+  border-left-color: var(--warn);
+}
+
+.issue .code {
+  font: 10px var(--mono);
+  color: var(--fg-dim);
+  letter-spacing: 0.4px;
+}
+
+.issue .msg {
+  margin: 2px 0;
+}
+
+.issue .hint {
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+.clean {
+  color: var(--ok);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.file-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 6px;
+  border-radius: 4px;
+  font: 12px var(--mono);
+}
+
+.file-row:hover {
+  background: var(--bg-3);
+}
+
+.file-row .nm {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.file-row .sz {
+  color: var(--fg-dim);
+  font-size: 11px;
+  flex: none;
+}
+
+/* ---------- preview ---------- */
+
+.preview {
+  font-size: 13.5px;
+}
+
+.preview h1 {
+  font-size: 1.45em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 4px;
+}
+.preview h2 {
+  font-size: 1.2em;
+  margin-top: 1.3em;
+}
+.preview h3,
+.preview h4 {
+  font-size: 1.05em;
+}
+.preview code {
+  background: var(--bg-3);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font: 12px var(--mono);
+}
+.preview pre.code {
+  background: var(--bg-3);
+  padding: 9px 11px;
+  border-radius: 5px;
+  overflow: auto;
+}
+.preview pre.code code {
+  background: none;
+  padding: 0;
+}
+.preview a {
+  color: #76c7b7;
+}
+.preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 12.5px;
+}
+.preview th,
+.preview td {
+  border: 1px solid var(--line);
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.preview th {
+  background: var(--bg-3);
+}
+.preview blockquote {
+  border-left: 3px solid var(--line);
+  margin: 8px 0;
+  padding: 0 0 0 10px;
+  color: var(--fg-dim);
+}
+.preview hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- misc ---------- */
+
+.empty {
+  color: var(--fg-dim);
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.ro-banner {
+  background: #2c2419;
+  border-bottom: 1px solid var(--warn);
+  color: var(--warn);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex: none;
+}
+
+dialog {
+  background: var(--bg-2);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0;
+  width: min(520px, 92vw);
+}
+
+dialog::backdrop {
+  background: #0008;
+}
+
+dialog form {
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+}
+
+dialog h3 {
+  margin: 0;
+}
+
+dialog .actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.toast {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 14px;
+  box-shadow: 0 6px 20px #0007;
+  max-width: 70vw;
+  z-index: 50;
+}
+
+.toast.bad {
+  border-color: var(--err);
+  color: var(--err);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ADD [Claude AI - Opus 5] (2026-10-08 13:36:40): a reload held back because of
+   unsaved edits must stay visible, not vanish with a toast. */
+.pill {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--fg);
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 10px;
+  flex: none;
+}
+
+.muted {
+  color: var(--fg-dim);
+}
+
+button.link {
+  background: none;
+  border: 0;
+  color: var(--fg-dim);
+  padding: 0;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+button.link:hover {
+  color: var(--accent);
+}
+
+/* ---------- welcome screen ---------- */
+/* ADD [Claude AI - Opus 5] (2026-10-08 11:52:07): shown instead of the editor when
+   nothing is open, so the app starts on recents rather than the whole skill tree. */
+
+.welcome {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 5;
+}
+
+.welcome-inner {
+  width: min(620px, 100%);
+  padding: 48px 28px;
+}
+
+.welcome h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.welcome p {
+  margin: 0 0 20px;
+}
+
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.welcome-recent-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--fg-dim);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 5px;
+  margin-bottom: 4px;
+}
+
+.recent-row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--bg-2);
+}
+
+.recent-row:hover {
+  background: var(--bg-3);
+}
+
+.recent-row .nm {
+  font: 13px var(--mono);
+  flex: none;
+}
+
+.recent-row .where {
+  flex: 1;
+  font-size: 12px;
+  color: var(--fg-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-row .when {
+  font-size: 11px;
+  color: var(--fg-dim);
+  flex: none;
+}
+
+/* ---------- quick open ---------- */
+
+#quick {
+  width: min(680px, 94vw);
+  padding: 0;
+  margin-top: 10vh;
+  border-color: var(--accent-dim);
+}
+
+.quick-head {
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+#quick-input {
+  font-size: 15px;
+  padding: 8px 10px;
+}
+
+.quick-list {
+  max-height: 52vh;
+  overflow: auto;
+}
+
+.quick-row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 12px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+}
+
+.quick-row.sel {
+  background: var(--bg-3);
+  border-left-color: var(--accent);
+}
+
+.quick-row .nm {
+  font: 13px var(--mono);
+  flex: none;
+}
+
+.quick-row .desc {
+  flex: 1;
+  font-size: 12px;
+  color: var(--fg-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-foot {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 12px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--fg-dim);
+}
+
+.quick-empty {
+  padding: 22px;
+  text-align: center;
+  color: var(--fg-dim);
+}

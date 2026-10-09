@@ -1,0 +1,268 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ADD [Claude AI - Opus 5] (2026-10-08 14:05:12): shadcn token set, warm accent to
+   match Claude Code, dark by default with a light theme available. */
+
+:root {
+  --radius: 0.625rem;
+
+  --background: #fbfaf9;
+  --foreground: #1f1d1b;
+  --card: #ffffff;
+  --card-foreground: #1f1d1b;
+  --popover: #ffffff;
+  --popover-foreground: #1f1d1b;
+  --primary: #c2552f;
+  --primary-foreground: #fff8f4;
+  --secondary: #f0ece8;
+  --secondary-foreground: #2c2926;
+  --muted: #f0ece8;
+  --muted-foreground: #6f6862;
+  --accent: #f3ece7;
+  --accent-foreground: #2c2926;
+  --destructive: #c0392b;
+  --destructive-foreground: #fff5f4;
+  --success: #2f7d4f;
+  --warning: #9a6b12;
+  --border: #e3ddd7;
+  --input: #e3ddd7;
+  --ring: #c2552f;
+}
+
+.dark {
+  --background: #16181d;
+  --foreground: #e3e7ee;
+  --card: #1c1f26;
+  --card-foreground: #e3e7ee;
+  --popover: #1e2128;
+  --popover-foreground: #e3e7ee;
+  --primary: #d97757;
+  --primary-foreground: #1a1206;
+  --secondary: #272b34;
+  --secondary-foreground: #e3e7ee;
+  --muted: #23262f;
+  --muted-foreground: #98a0b0;
+  --accent: #272b34;
+  --accent-foreground: #e3e7ee;
+  --destructive: #e5736d;
+  --destructive-foreground: #1a0f0f;
+  --success: #6fbf8b;
+  --warning: #d9a84e;
+  --border: #2f333d;
+  --input: #2f333d;
+  --ring: #d97757;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-mono: ui-monospace, 'Cascadia Mono', 'JetBrains Mono', Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: ui-sans-serif, 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 32%, transparent);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 22%, transparent) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--foreground) 20%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--foreground) 34%, transparent);
+    background-clip: content-box;
+  }
+}
+
+/* Source-pane token colours for the highlight overlay. */
+.tok-head {
+  color: #7aa7e8;
+  font-weight: 600;
+}
+.tok-code {
+  color: #dba26c;
+}
+.tok-fence {
+  color: var(--muted-foreground);
+}
+.tok-link {
+  color: #5fb8a8;
+}
+.tok-bold {
+  color: #e2cf8d;
+}
+.tok-bullet {
+  color: var(--primary);
+}
+
+:root:not(.dark) .tok-head {
+  color: #2f5fa8;
+}
+:root:not(.dark) .tok-code {
+  color: #8a5420;
+}
+:root:not(.dark) .tok-link {
+  color: #19695c;
+}
+:root:not(.dark) .tok-bold {
+  color: #7a6418;
+}
+
+/* Rendered markdown preview. */
+.prose-skill {
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+.prose-skill h1,
+.prose-skill h2,
+.prose-skill h3,
+.prose-skill h4 {
+  font-weight: 650;
+  line-height: 1.3;
+  margin: 1.4em 0 0.5em;
+}
+.prose-skill h1 {
+  font-size: 1.4em;
+  margin-top: 0;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border);
+}
+.prose-skill h2 {
+  font-size: 1.18em;
+}
+.prose-skill h3 {
+  font-size: 1.05em;
+}
+.prose-skill p,
+.prose-skill ul,
+.prose-skill ol,
+.prose-skill table,
+.prose-skill blockquote {
+  margin: 0.7em 0;
+}
+.prose-skill ul,
+.prose-skill ol {
+  padding-left: 1.3em;
+}
+.prose-skill ul {
+  list-style: disc;
+}
+.prose-skill ol {
+  list-style: decimal;
+}
+.prose-skill li {
+  margin: 0.25em 0;
+}
+.prose-skill code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--muted);
+  padding: 0.12em 0.36em;
+  border-radius: var(--radius-sm);
+}
+.prose-skill pre.code {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.7em 0.85em;
+  overflow: auto;
+  font-size: 0.82em;
+}
+.prose-skill pre.code code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+}
+.prose-skill a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-skill table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92em;
+}
+.prose-skill th,
+.prose-skill td {
+  border: 1px solid var(--border);
+  padding: 0.35em 0.6em;
+  text-align: left;
+  vertical-align: top;
+}
+.prose-skill th {
+  background: var(--muted);
+  font-weight: 600;
+}
+.prose-skill blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 0.8em;
+  color: var(--muted-foreground);
+}
+.prose-skill hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.2em 0;
+}

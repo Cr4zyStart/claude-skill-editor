@@ -1,0 +1,18 @@
+# Installed by `npm install` in ui/ — 130M+, rebuilt from package-lock.json
+node_modules/
+
+# Vite's own intermediate output. The shipped UI is public/, which IS committed
+# so that `node serve.mjs` works on a fresh clone with no npm install.
+ui/dist/
+*.tsbuildinfo
+
+# Runtime state the editor writes into ~/.claude, never into the repo —
+# listed so a stray copy here is never committed.
+skill-editor-token
+skill-editor-recent.json
+skill-editor-roots.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp

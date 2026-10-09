@@ -1,0 +1,122 @@
+<!doctype html>
+<!-- ADD [Claude AI - Opus 5] (2026-10-08 10:48:42): Claude Skill Editor shell. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Skill Editor</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body data-token="__EDITOR_TOKEN__">
+    <header>
+      <span class="title">Claude Skill Editor</span>
+      <button id="btn-open" title="Open a skill (Ctrl+O)">Open&hellip;</button>
+      <button id="btn-new" title="New skill (Ctrl+N)">New</button>
+      <span class="path" id="current-path">No skill open</span>
+      <span class="dirty-dot hidden" id="dirty" title="Unsaved changes">&#9679;</span>
+      <button class="pill hidden" id="update-pending" title="Reload to pick up the new code">Update ready &mdash; reload</button>
+      <button id="btn-reload" title="Reload from disk">&#8635;</button>
+      <button id="btn-close" title="Close this skill" disabled>Close</button>
+      <button id="btn-revert" disabled>Revert</button>
+      <button id="btn-save" class="primary" disabled>Save &nbsp;<small>Ctrl+S</small></button>
+    </header>
+
+    <main>
+      <section class="pane" id="pane-edit">
+        <div class="ro-banner hidden" id="ro-banner">
+          <span class="grow" id="ro-text">Read-only.</span>
+          <button id="btn-fork">Fork to edit…</button>
+        </div>
+
+        <div class="form" id="form">
+          <div class="field">
+            <label for="f-name">name &nbsp;<span style="text-transform:none">(must match the folder)</span></label>
+            <div class="row">
+              <input id="f-name" spellcheck="false" />
+              <span class="counter" id="name-counter"></span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-desc">description &nbsp;<span style="text-transform:none">(the only text the model sees when choosing this skill)</span></label>
+            <div class="row">
+              <textarea id="f-desc" class="desc" rows="3" spellcheck="false"></textarea>
+              <span class="counter" id="desc-counter"></span>
+            </div>
+          </div>
+          <details id="extra-wrap" class="field">
+            <summary style="cursor:pointer;color:var(--fg-dim);font-size:12px">
+              Other frontmatter (<span id="extra-count">0</span> lines, preserved verbatim)
+            </summary>
+            <textarea id="f-extra" rows="4" spellcheck="false" style="font-family:var(--mono);margin-top:6px"></textarea>
+          </details>
+        </div>
+
+        <div class="tabs" id="file-tabs"></div>
+
+        <div class="editor-wrap">
+          <pre id="highlight" aria-hidden="true"></pre>
+          <textarea id="editor" spellcheck="false"></textarea>
+        </div>
+
+        <div class="welcome" id="welcome">
+          <div class="welcome-inner">
+            <h2>Claude Skill Editor</h2>
+            <p class="muted">Open a skill to edit it, or start a new one.</p>
+            <div class="issue error hidden" id="load-error"></div>
+
+            <div class="welcome-actions">
+              <button class="primary" id="w-open">Open a skill&nbsp; <small>Ctrl+O</small></button>
+              <button id="w-new">New skill&nbsp; <small>Ctrl+N</small></button>
+              <button id="w-validate">Validate all</button>
+              <button id="w-roots">Folders&hellip;</button>
+            </div>
+
+            <div class="welcome-recent">
+              <div class="welcome-recent-head">
+                <span>Recent</span>
+                <button id="w-clear-recent" class="link">Clear</button>
+              </div>
+              <div id="recent-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="splitter" data-target="pane-side"></div>
+
+      <section class="pane" id="pane-side">
+        <div class="tabs" id="side-tabs">
+          <button class="tab active" data-side="validation">Validation</button>
+          <button class="tab" data-side="preview">Preview</button>
+          <button class="tab" data-side="files">Files</button>
+          <button class="tab" data-side="roots">Roots</button>
+        </div>
+        <div class="side-body" id="side-body"></div>
+      </section>
+    </main>
+
+    <dialog id="quick">
+      <div class="quick-head">
+        <input id="quick-input" type="text" spellcheck="false" placeholder="Type to find a skill…" autocomplete="off" />
+      </div>
+      <div class="quick-list" id="quick-list"></div>
+      <div class="quick-foot">
+        <span id="quick-count"></span>
+        <span class="muted">&uarr;&darr; move &nbsp;·&nbsp; Enter open &nbsp;·&nbsp; Esc cancel</span>
+      </div>
+    </dialog>
+
+    <dialog id="dlg">
+      <form id="dlg-form">
+        <h3 id="dlg-title">Dialog</h3>
+        <div id="dlg-fields"></div>
+        <div class="actions">
+          <button type="button" id="dlg-cancel">Cancel</button>
+          <button type="submit" class="primary" id="dlg-ok">OK</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
